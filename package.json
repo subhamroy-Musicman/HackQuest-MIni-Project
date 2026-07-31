@@ -1,5 +1,5 @@
 {
-  "name": "injective-dapp-starter",
+  "name": "novatip",
   "version": "1.0.0",
   "private": true,
   "description": "An educational, fully-commented full-stack Injective dApp starter built with Next.js, TypeScript, Tailwind CSS and the official Injective TypeScript SDK.",
@@ -16,8 +16,13 @@
     "@injectivelabs/sdk-ts": "^1.20.28",
     "@injectivelabs/ts-types": "^1.20.28",
     "@injectivelabs/utils": "^1.20.28",
+    "@types/canvas-confetti": "^1.9.0",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^12.43.0",
+    "lucide-react": "^1.28.0",
     "next": "15.5.22",
     "react": "19.2.8",
+    "react-countup": "^6.5.3",
     "react-dom": "19.2.8"
   },
   "devDependencies": {

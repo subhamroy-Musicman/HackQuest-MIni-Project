@@ -99,7 +99,7 @@ export function BalanceRowSkeleton({ rows = 3 }: { rows?: number }) {
           // A static list that never reorders is the one case where an index
           // key is genuinely correct.
           key={index}
-          className="flex items-center justify-between rounded-lg border border-[var(--color-line-subtle)] bg-[var(--color-surface-raised)] px-4 py-3"
+          className="glass-panel flex items-center justify-between rounded-lg px-4 py-3"
         >
           <div className="flex items-center gap-3">
             <Skeleton className="h-9 w-9 rounded-full" />

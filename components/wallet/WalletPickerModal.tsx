@@ -216,7 +216,7 @@ export function WalletPickerModal({ open, onClose }: WalletPickerModalProps) {
         // open — a tall panel would run off the top and bottom at once with no
         // way to reach either end. Capping the height and letting the panel
         // scroll internally keeps every option reachable.
-        className="max-h-full w-full max-w-md overflow-y-auto rounded-xl border border-[var(--color-line-strong)] bg-[var(--color-surface-raised)] shadow-2xl"
+        className="glass-panel-overlay max-h-full w-full max-w-md overflow-y-auto rounded-xl"
       >
         <header className="flex items-start justify-between gap-4 border-b border-[var(--color-line-subtle)] px-5 py-4">
           <div>

@@ -40,6 +40,7 @@
 import { ConnectWalletButton } from '@/components/wallet/ConnectWalletButton'
 import { Badge } from '@/components/ui/Badge'
 import { CHAIN_ID, IS_MAINNET } from '@/lib/constants'
+import Image from 'next/image'
 
 /**
  * Renders the application header.
@@ -59,26 +60,25 @@ import { CHAIN_ID, IS_MAINNET } from '@/lib/constants'
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--color-line-subtle)] bg-[var(--color-surface-base)]/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-[#00E5FF]/20 bg-[#030A0E]/95 shadow-[0_4px_30px_rgba(0,229,255,0.06)] backdrop-blur-xl transition-all duration-300">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex min-w-0 items-center gap-3">
-          {/* A simple mark, drawn in CSS. Keeps the repo free of binary assets
-              while still giving the header a visual anchor. */}
-          <div
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-brand)] text-sm font-bold text-[#04141a]"
-            aria-hidden="true"
-          >
-            ⬡
-          </div>
+          <Image
+            src="/img/logo.jpg"
+            alt="NovaTip Logo"
+            width={36}
+            height={36}
+            className="shrink-0 rounded-[8px] border border-[#00E5FF]/20 shadow-sm"
+          />
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-[var(--color-content-primary)]">
-              Injective dApp Starter
+            <p className="truncate text-xl font-black tracking-tight bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] bg-clip-text text-transparent">
+              NovaTip
             </p>
             {/* Hidden on the smallest screens, where the connect button is the
                 priority. The badge below still communicates the network. */}
-            <p className="hidden truncate text-[11px] text-[var(--color-content-muted)] sm:block">
-              A workshop-ready tour of the Injective TypeScript SDK
+            <p className="hidden truncate text-[11px] font-semibold uppercase tracking-wider text-[#00E5FF]/70 sm:block">
+              Support Creators Instantly on Injective
             </p>
           </div>
         </div>

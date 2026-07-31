@@ -34,16 +34,6 @@ import { EXPLORER_BASE_URL, FAUCET_URL, IS_MAINNET, NETWORK_NAME } from '@/lib/c
 /** Links shown in the footer. Data rather than markup, so the list is trivial to extend. */
 const RESOURCE_LINKS: Array<{ label: string; href: string; description: string }> = [
   {
-    label: 'Injective docs',
-    href: 'https://docs.injective.network',
-    description: 'Chain concepts, modules and guides',
-  },
-  {
-    label: 'TypeScript SDK',
-    href: 'https://github.com/InjectiveLabs/injective-ts',
-    description: 'Source, examples and release notes',
-  },
-  {
     label: 'Block explorer',
     href: EXPLORER_BASE_URL,
     description: 'Every transaction, publicly',
@@ -68,8 +58,8 @@ const RESOURCE_LINKS: Array<{ label: string; href: string; description: string }
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-[var(--color-line-subtle)]">
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6 lg:px-8 xl:px-12">
+        <div className="grid gap-6 sm:grid-cols-2">
           {RESOURCE_LINKS.map((link) => (
             <a
               key={link.href}
@@ -95,7 +85,7 @@ export function Footer() {
         </div>
 
         <p className="mt-6 text-[11px] leading-relaxed text-[var(--color-content-muted)]">
-          Built for teaching. Currently pointed at{' '}
+          NovaTip is currently pointed at{' '}
           <span className="text-[var(--color-content-secondary)]">
             {NETWORK_NAME}
           </span>
