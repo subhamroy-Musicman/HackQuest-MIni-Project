@@ -48,4 +48,28 @@ export const MOCK_CREATORS: Creator[] = [
     address: 'inj122wqqm6q5e3qym23d9muee3nkr8h2n20wz5s9n',
     totalRaised: '320.0',
   },
+  {
+    id: '6',
+    name: 'Smart Contract Auditor',
+    bio: 'Securing the ecosystem one line of code at a time.',
+    avatar: '/img/avatar_auditor.jpg',
+    address: 'inj173qwye26q5e3qym23d9muee3nkr8h2n30x12z',
+    totalRaised: '1050.0',
+  },
+  {
+    id: '7',
+    name: 'DeFi Strategist',
+    bio: 'Building advanced automated yield vaults.',
+    avatar: '/img/avatar_defi.jpg',
+    address: 'inj199dsqq6q5e3qym23d9muee3nkr8h2n80a9b8c',
+    totalRaised: '42.5',
+  },
+  {
+    id: '8',
+    name: 'UI/UX Designer',
+    bio: 'Crafting beautiful Web3 experiences for the masses.',
+    avatar: '/img/avatar_ui.jpg',
+    address: 'inj111fvwq6q5e3qym23d9muee3nkr8h2n55x99d1',
+    totalRaised: '210.8',
+  },
 ]
