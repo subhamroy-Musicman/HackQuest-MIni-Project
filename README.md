@@ -1,4 +1,7 @@
-# NovaTip 🌟
+<div align="center">
+  <img src="public/img/logo.jpg" alt="NovaTip Logo" width="150" style="border-radius: 12px; margin-bottom: 20px" />
+  <h1>NovaTip</h1>
+</div>
 
 > Support creators instantly with fast, low-cost, on-chain donations powered by Injective.
 
@@ -6,7 +9,7 @@
 
 ---
 
-## 🎨 Features & Functionality
+## Features & Functionality
 
 - **Wallet Connection**: Seamless Web3 integration with Keplr and Leap wallets.
 - **Creator Dashboard**: Beautiful glassmorphic cards for creators.
@@ -19,12 +22,12 @@
 - **Live Transaction Feed**: A "Recent Tips" feed rendered below the creator grid, updating dynamically whenever a new tip is broadcasted.
 - **Full Transaction Lifecycle**: Real-time feedback for Pending, Signing, Broadcasting, and Confirmed states.
 - **Explorer Links**: Instant verification of successful donations on the Injective Explorer.
-- **Responsive UI**: A fully mobile-responsive, premium tech aesthetic with a bespoke "NT" monogram SVG logo and dark-mode styling.
-- **Celebration Mode**: Confetti animations upon successful donations! 🎉
+- **Responsive UI**: A fully mobile-responsive, premium tech aesthetic with a bespoke "NT" monogram logo and dark-mode styling.
+- **Celebration Mode**: Confetti animations upon successful donations!
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
@@ -36,7 +39,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v18+)
@@ -72,7 +75,7 @@
 
 ---
 
-## 🧠 What I Learned (Co-Learning Camp Journey)
+## What I Learned (Co-Learning Camp Journey)
 
 Building NovaTip provided invaluable hands-on experience with the Injective ecosystem and modern frontend development:
 
@@ -80,11 +83,11 @@ Building NovaTip provided invaluable hands-on experience with the Injective ecos
 2. **Cosmos Transactions**: I gained a deep understanding of the transaction lifecycle (Building -> Signing -> Broadcasting) and how to construct a `MsgSend` payload using `@injective/sdk-ts`.
 3. **Dynamic State & Analytics**: Moving beyond hardcoded tutorials, I engineered dynamic hooks to calculate total volume tipped and active users by aggregating data across the application state in real-time.
 4. **Data Persistence**: Learned to leverage browser storage events to sync state across different components (e.g., updating the global analytics when a new creator is added in a modal).
-5. **Frontend Architecture**: Designed a responsive, highly polished consumer-facing dApp featuring bespoke SVG assets, micro-interactions, and premium UI styling that elevates Web3 UX.
+5. **Frontend Architecture**: Designed a responsive, highly polished consumer-facing dApp featuring custom assets, micro-interactions, and premium UI styling that elevates Web3 UX.
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 While this is a fully functional MVP for the Co-Learning Camp, future iterations could include:
 - **Smart Contract Integration**: Storing the creator directory and donation history natively on-chain via CosmWasm rather than local/mock persistence.
@@ -94,4 +97,4 @@ While this is a fully functional MVP for the Co-Learning Camp, future iterations
 
 ---
 
-*Built with ❤️ for the Injective Co-Learning Camp.*
+*Built for the Injective Co-Learning Camp.*
