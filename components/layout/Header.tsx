@@ -60,7 +60,7 @@ import Image from 'next/image'
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-[#00E5FF]/20 bg-[#030A0E]/95 shadow-[0_4px_30px_rgba(0,229,255,0.06)] backdrop-blur-xl transition-all duration-300">
+    <header className="sticky top-0 z-40 border-b border-[#00E5FF]/20 bg-[#030A0E]/60 shadow-[0_4px_30px_rgba(0,229,255,0.06)] backdrop-blur-xl transition-all duration-300">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 xl:px-12">
         <div className="flex min-w-0 items-center gap-3">
           <Image
