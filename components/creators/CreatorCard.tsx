@@ -16,8 +16,12 @@ export function CreatorCard({ creator, onDonate }: CreatorCardProps) {
       <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-brand)]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       
       <div className="relative z-10 flex items-start gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#6D5DF6] text-2xl shadow-lg">
-          {creator.avatar}
+        <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#6D5DF6] shadow-lg">
+          {creator.avatar.startsWith('/') ? (
+            <Image src={creator.avatar} alt={creator.name} fill className="object-cover" />
+          ) : (
+            <span className="text-2xl text-white font-bold">{creator.avatar}</span>
+          )}
         </div>
         <div>
           <h3 className="text-base font-semibold text-[var(--color-content-primary)]">
