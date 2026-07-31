@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Injective starter mark">
+  <!--
+    A generic hexagonal mark used as a visual placeholder.
+
+    Deliberately NOT the official Injective logo. Shipping a third party's
+    trademark inside a starter template invites people to redistribute it
+    without checking the brand guidelines, so this is a neutral stand-in.
+    Replace it with your own mark.
+
+    Everything here is vector and inline, so the file is a few hundred bytes and
+    stays crisp at any size — which is why the app uses SVG rather than PNG for
+    interface graphics.
+  -->
+  <defs>
+    <linearGradient id="mark-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00d2ff"/>
+      <stop offset="100%" stop-color="#00a8cc"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 4 L52 16 L52 40 L32 52 L12 40 L12 16 Z"
+        fill="none" stroke="url(#mark-gradient)" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 18 L42 24 L42 36 L32 42 L22 36 L22 24 Z"
+        fill="url(#mark-gradient)" opacity="0.25"/>
+  <circle cx="32" cy="30" r="4.5" fill="url(#mark-gradient)"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!--
+    The browser tab icon.
+
+    In the Next.js App Router, a file named `icon.svg` inside `app/` is
+    automatically served as the favicon and injected into <head>. There is no
+    <link rel="icon"> anywhere in this project — the filename IS the config.
+    The same convention applies to `apple-icon.png` and `opengraph-image.png`.
+  -->
+  <rect width="32" height="32" rx="7" fill="#00d2ff"/>
+  <path d="M16 6 L25 11 L25 21 L16 26 L7 21 L7 11 Z"
+        fill="none" stroke="#04141a" stroke-width="2.2" stroke-linejoin="round"/>
+  <circle cx="16" cy="16" r="3" fill="#04141a"/>
+</svg>

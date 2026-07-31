@@ -1,0 +1,37 @@
+{
+  "name": "injective-dapp-starter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An educational, fully-commented full-stack Injective dApp starter built with Next.js, TypeScript, Tailwind CSS and the official Injective TypeScript SDK.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@injectivelabs/exceptions": "^1.20.28",
+    "@injectivelabs/networks": "^1.20.28",
+    "@injectivelabs/sdk-ts": "^1.20.28",
+    "@injectivelabs/ts-types": "^1.20.28",
+    "@injectivelabs/utils": "^1.20.28",
+    "next": "15.5.22",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.6",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "15.5.22",
+    "tailwindcss": "^4.3.3",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

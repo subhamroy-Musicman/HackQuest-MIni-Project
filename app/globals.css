@@ -1,0 +1,193 @@
+/**
+ * =============================================================================
+ * FILE: app/globals.css
+ * =============================================================================
+ *
+ * PURPOSE
+ * -------
+ * The single stylesheet for the application: Tailwind's import, the design
+ * tokens, and a handful of base styles.
+ *
+ * WHY IT EXISTS
+ * -------------
+ * Tailwind CSS v4 changed where configuration lives. In v3 you wrote a
+ * `tailwind.config.js` file; in v4 the design tokens live here, in CSS, inside
+ * an `@theme` block. There is no config file in this project and that is not an
+ * oversight.
+ *
+ * Anything declared in `@theme` automatically becomes a utility class. Define
+ * `--color-brand: #00e0d0` and you can immediately write `bg-brand`,
+ * `text-brand`, `border-brand` — no config, no restart.
+ *
+ * WHEN TO EDIT
+ * ------------
+ * To change the palette, spacing scale or fonts. Component-specific styling
+ * belongs in the component, as utility classes.
+ *
+ * DEPENDENCIES
+ * ------------
+ * Depends on : `tailwindcss`, `@tailwindcss/postcss` (see postcss.config.mjs)
+ * Depended on by: `app/layout.tsx`, which imports it once for the whole app.
+ * =============================================================================
+ */
+
+/* One import replaces v3's three `@tailwind` directives. */
+@import 'tailwindcss';
+
+/* -----------------------------------------------------------------------------
+ * DESIGN TOKENS
+ * -----------------------------------------------------------------------------
+ * A deliberately small palette. Constraint is what makes an interface look
+ * designed rather than assembled — two accents and five greys go further than
+ * twenty colours.
+ *
+ * The app is dark by default. That is a genuine convention in this ecosystem
+ * (every major dApp and explorer is dark), not just a stylistic preference, so
+ * a light mode is not implemented. If you want one, add a `@media
+ * (prefers-color-scheme: light)` block overriding these same variables.
+ * -------------------------------------------------------------------------- */
+@theme {
+  /* Surfaces, from furthest back to closest to the reader. */
+  --color-surface-base: #07090d;
+  --color-surface-raised: #0e1219;
+  --color-surface-overlay: #151b25;
+  --color-surface-hover: #1c2430;
+
+  /* Borders. Two weights: a quiet default and one for emphasis. */
+  --color-line-subtle: #1e2632;
+  --color-line-strong: #2c3745;
+
+  /* Text, in descending prominence. */
+  --color-content-primary: #e9eef5;
+  --color-content-secondary: #94a3b4;
+  --color-content-muted: #64748b;
+
+  /* Injective's brand cyan, plus a deeper shade for hover states. */
+  --color-brand: #00d2ff;
+  --color-brand-strong: #00a8cc;
+  --color-brand-dim: #0a3a45;
+
+  /* Semantic colours for feedback. */
+  --color-success: #34d399;
+  --color-success-dim: #0d2f24;
+  --color-warning: #fbbf24;
+  --color-warning-dim: #3a2c07;
+  --color-danger: #f87171;
+  --color-danger-dim: #3a1414;
+
+  /* Fonts. The variables are injected by `next/font` in app/layout.tsx. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+}
+
+/* -----------------------------------------------------------------------------
+ * BASE STYLES
+ * -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    /* Anchor links scroll smoothly to the section they target. */
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface-base);
+    color: var(--color-content-primary);
+    font-family: var(--font-sans);
+    /* Dark backgrounds make text look heavier than it is; antialiasing
+       compensates and keeps small text readable. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /*
+   * A visible, consistent focus ring.
+   *
+   * Never remove focus outlines without replacing them. Keyboard users rely on
+   * them entirely, and `:focus-visible` shows the ring only for keyboard
+   * navigation — mouse clicks stay clean. It is the rare accessibility win that
+   * costs nothing visually.
+   */
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /*
+   * Addresses, hashes and amounts are always monospaced.
+   *
+   * This is not decoration. Proportional fonts render `1`, `l` and `I` almost
+   * identically, and in a string where a single character determines who
+   * receives money, that is a real hazard. Monospace fonts are designed to keep
+   * them distinct.
+   */
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
+  }
+
+  /* Respect users who have asked their OS to reduce motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * COMPONENT UTILITIES
+ * -----------------------------------------------------------------------------
+ * A very small number of custom classes, for patterns that would otherwise mean
+ * repeating a dozen utilities in several files.
+ * -------------------------------------------------------------------------- */
+@layer components {
+  /* Subtle animated background used at the top of the page. */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--color-line-subtle) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-line-subtle) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  /* The pulsing dot that indicates a live connection. */
+  .pulse-dot {
+    animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Custom scrollbar, so long balance lists match the rest of the interface. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-content-muted);
+}
