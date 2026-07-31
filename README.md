@@ -97,4 +97,4 @@ While this is a fully functional MVP for the Co-Learning Camp, future iterations
 
 ---
 
-*Built for the Injective Co-Learning Camp.*
+*Built with ❤ by Subham Roy for the Injective Co-Learning Camp.*
