@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { Wallet, ArrowUpRight, Copy, Share2, CheckCircle2 } from 'lucide-react'
 import { useState } from 'react'
 import { getRecentTips } from '@/lib/tips'
@@ -22,7 +22,7 @@ export default function DashboardPage() {
     show: { opacity: 1, transition: { staggerChildren: 0.1 } },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
   }
@@ -140,7 +140,7 @@ export default function DashboardPage() {
   )
 }
 
-function Users(props: any) {
+function Users(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

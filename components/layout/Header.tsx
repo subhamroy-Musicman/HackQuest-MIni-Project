@@ -63,12 +63,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
  * it scrolls underneath.
  */
 export function Header() {
-  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
   const [notifications, setNotifications] = useState<AppNotification[]>([])
   
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const notificationsRef = useRef<HTMLDivElement>(null)
 
   const unreadCount = notifications.filter(n => !n.read).length
 
