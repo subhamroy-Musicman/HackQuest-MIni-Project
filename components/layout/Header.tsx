@@ -41,6 +41,7 @@ import { ConnectWalletButton } from '@/components/wallet/ConnectWalletButton'
 import { Badge } from '@/components/ui/Badge'
 import { CHAIN_ID, IS_MAINNET } from '@/lib/constants'
 import Image from 'next/image'
+import { useState, useRef, useEffect } from 'react'
 
 /**
  * Renders the application header.
@@ -59,6 +60,20 @@ import Image from 'next/image'
  * it scrolls underneath.
  */
 export function Header() {
+  const [showNotifications, setShowNotifications] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowNotifications(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
     <header className="sticky top-0 z-40 border-b border-[#00E5FF]/20 bg-[#030A0E]/60 shadow-[0_4px_30px_rgba(0,229,255,0.06)] backdrop-blur-xl transition-all duration-300">
       <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 xl:px-12">
@@ -91,16 +106,39 @@ export function Header() {
             {CHAIN_ID}
           </Badge>
 
-          <button
-            type="button"
-            className="relative rounded-full bg-[var(--color-surface-raised)] p-2 text-[var(--color-content-muted)] hover:text-[#00E5FF] transition-colors border border-[var(--color-line-subtle)] hover:border-[#00E5FF]/50"
-            aria-label="View notifications"
-          >
-            <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#6D5DF6] ring-2 ring-[#030A0E]"></span>
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-            </svg>
-          </button>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative rounded-full bg-[var(--color-surface-raised)] p-2 text-[var(--color-content-muted)] hover:text-[#00E5FF] transition-colors border border-[var(--color-line-subtle)] hover:border-[#00E5FF]/50"
+              aria-label="View notifications"
+            >
+              <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-[#6D5DF6] ring-2 ring-[#030A0E]"></span>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+              </svg>
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-xl border border-[#00E5FF]/20 bg-[#030A0E]/95 shadow-lg backdrop-blur-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="p-4 border-b border-[#00E5FF]/10">
+                  <h3 className="text-sm font-semibold text-white">Notifications</h3>
+                </div>
+                <div className="max-h-96 overflow-y-auto p-2">
+                  <div className="rounded-lg p-3 hover:bg-[var(--color-surface-raised)] transition-colors cursor-pointer">
+                    <p className="text-[13px] font-medium text-white">Welcome to NovaTip! 🎉</p>
+                    <p className="mt-1 text-[11px] text-[var(--color-content-secondary)]">Set up your creator profile to start receiving INJ tips directly on-chain.</p>
+                    <p className="mt-2 text-[10px] text-[#6D5DF6]">Just now</p>
+                  </div>
+                  <div className="mt-1 rounded-lg p-3 hover:bg-[var(--color-surface-raised)] transition-colors cursor-pointer">
+                    <p className="text-[13px] font-medium text-white">You received 0.5 INJ 🚀</p>
+                    <p className="mt-1 text-[11px] text-[var(--color-content-secondary)]">An anonymous supporter just tipped you! View transaction on the explorer.</p>
+                    <p className="mt-2 text-[10px] text-[#00E5FF]">2 hours ago</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           <ConnectWalletButton />
         </div>
