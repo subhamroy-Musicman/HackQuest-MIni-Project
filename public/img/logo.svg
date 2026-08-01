@@ -1,18 +1,61 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="512" height="512" fill="#0A0A0A" rx="128"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#00E5FF" />
-      <stop offset="100%" stop-color="#6D5DF6" />
+    <style>
+      @keyframes drawPath {
+        0% { stroke-dashoffset: 1500; fill-opacity: 0; }
+        60% { stroke-dashoffset: 0; fill-opacity: 0; }
+        100% { fill-opacity: 1; stroke-dashoffset: 0; }
+      }
+      @keyframes floatPulse {
+        0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+        50% { transform: translateY(-8px) scale(1.1); opacity: 1; }
+      }
+      @keyframes drawBorder {
+        0% { stroke-dashoffset: 1600; }
+        100% { stroke-dashoffset: 0; }
+      }
+      .n-shape {
+        stroke: url(#accent);
+        stroke-width: 6;
+        stroke-linejoin: round;
+        stroke-dasharray: 1500;
+        animation: drawPath 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .border-glow {
+        stroke-dasharray: 1600;
+        animation: drawBorder 3s ease-in-out infinite alternate;
+      }
+      .float-up {
+        animation: floatPulse 4s ease-in-out infinite;
+        transform-origin: center;
+      }
+      .float-down {
+        animation: floatPulse 5s ease-in-out infinite alternate-reverse;
+        transform-origin: center;
+      }
+    </style>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f" />
+      <stop offset="100%" stop-color="#12121a" />
     </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6D5DF6" />
+      <stop offset="50%" stop-color="#00E5FF" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
   </defs>
 
-  <g stroke="url(#grad)" stroke-width="44" stroke-linecap="round" stroke-linejoin="round">
-    <!-- N -->
-    <path d="M 126 360 L 126 152 L 226 360 L 226 152"/>
-    
-    <!-- T -->
-    <path d="M 286 152 L 386 152"/>
-    <path d="M 336 152 L 336 360"/>
+  <rect width="400" height="400" rx="90" fill="url(#bg)" />
+  <rect class="border-glow" width="396" height="396" x="2" y="2" rx="88" fill="none" stroke="rgba(0, 229, 255, 0.3)" stroke-width="4" />
+
+  <g transform="translate(105, 100) skewX(-12)" filter="url(#glow)">
+    <path class="n-shape" d="M 20 200 L 60 200 L 130 80 L 130 200 L 170 200 L 170 0 L 130 0 L 60 120 L 60 0 L 20 0 Z" fill="url(#accent)" />
   </g>
+  
+  <polygon class="float-up" points="280,60 290,80 280,100 270,80" fill="#00E5FF" filter="url(#glow)" />
+  <polygon class="float-down" points="120,300 125,310 120,320 115,310" fill="#6D5DF6" filter="url(#glow)" />
 </svg>

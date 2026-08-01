@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Creator } from '@/lib/creators'
 import { useWallet } from '@/hooks/useWallet'
 import { useBalances } from '@/hooks/useBalances'
+import { addNotification } from '@/lib/notifications'
 import { useSendInj } from '@/hooks/useSendInj'
 import { TransactionStepper } from '@/components/transfer/TransactionStepper'
 import { TransactionReceipt } from '@/components/transfer/TransactionReceipt'
@@ -42,6 +43,7 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
         amount: amount,
         creator: creator.name
       })
+      addNotification('Tip Sent Successfully! 🚀', `You just tipped ${amount} INJ to ${creator.name}`)
       onSuccess?.(amount)
       confetti({
         particleCount: 150,
@@ -133,7 +135,7 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Creator Info */}
               <div className="flex items-center gap-4 rounded-xl border border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] p-4">
-                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#00E5FF] to-[#6D5DF6] shadow-lg">
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 dark:from-[#00E5FF] dark:to-[#6D5DF6] shadow-lg">
                   <Image src={creator.avatar} alt={creator.name} fill className="object-cover" />
                 </div>
                 <div className="min-w-0">
@@ -160,10 +162,10 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
                         setAmount(preset)
                         setIsCustom(false)
                       }}
-                      className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
+                      className={`relative overflow-hidden rounded-xl border p-3 text-center transition-all ${
                         amount === preset && !isCustom
-                          ? 'border-[#00E5FF] bg-[#00E5FF]/10 text-[#00E5FF]'
-                          : 'border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] text-[var(--color-content-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-content-primary)]'
+                          ? 'border-blue-500 bg-blue-500/10 text-blue-700 dark:border-[#00E5FF] dark:bg-[#00E5FF]/10 dark:text-[#00E5FF]'
+                          : 'border-[var(--color-line-subtle)] hover:border-[var(--color-line-strong)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-content-primary)]'
                       }`}
                     >
                       {preset}
@@ -177,7 +179,7 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
                     }}
                     className={`rounded-lg border px-3 py-2 text-sm font-medium transition-colors ${
                       isCustom
-                        ? 'border-[#00E5FF] bg-[#00E5FF]/10 text-[#00E5FF]'
+                        ? 'border-blue-500 bg-blue-500/10 text-blue-700 dark:border-[#00E5FF] dark:bg-[#00E5FF]/10 dark:text-[#00E5FF]'
                         : 'border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] text-[var(--color-content-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-content-primary)]'
                     }`}
                   >
@@ -232,7 +234,7 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
                 <Button
                   type="submit"
                   disabled={!canSubmit}
-                  className="w-full bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] text-white shadow-md hover:from-[#00FFA3] hover:to-[#00E5FF] transition-all disabled:opacity-50 disabled:hover:from-[#00E5FF] disabled:hover:to-[#6D5DF6]"
+                  className="w-full bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] text-white shadow-md hover:from-[#00FFA3] hover:to-[#00E5FF] transition-all disabled:opacity-50 disabled:hover:from-[#00E5FF] disabled:hover:to-[#6D5DF6] dark:from-[#00E5FF] dark:to-[#6D5DF6] dark:hover:from-[#00FFA3] dark:hover:to-[#00E5FF] dark:disabled:hover:from-[#00E5FF] dark:disabled:hover:to-[#6D5DF6]"
                 >
                   Send Donation
                 </Button>

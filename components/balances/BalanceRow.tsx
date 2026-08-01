@@ -72,7 +72,7 @@ export function BalanceRow({ balance, highlight = false }: BalanceRowProps) {
       className={cn(
         'rounded-lg border px-4 py-3 transition-colors',
         highlight
-          ? 'border-[var(--color-brand)]/25 bg-[var(--color-brand-dim)]/40'
+          ? 'border-blue-500/30 bg-blue-500/5 dark:border-[#00E5FF]/30 dark:bg-[#00E5FF]/5'
           : 'border-[var(--color-line-subtle)] bg-[var(--color-surface-base)]',
       )}
     >
@@ -85,7 +85,7 @@ export function BalanceRow({ balance, highlight = false }: BalanceRowProps) {
             className={cn(
               'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold',
               highlight
-                ? 'bg-[var(--color-brand)] text-[#04141a]'
+                ? 'bg-blue-500/10 text-blue-700 border-blue-500/30 dark:bg-[#00E5FF]/20 dark:text-[#00E5FF] dark:border border-[#00E5FF]/30'
                 : 'bg-[var(--color-surface-hover)] text-[var(--color-content-secondary)]',
             )}
             aria-hidden="true"
@@ -93,16 +93,16 @@ export function BalanceRow({ balance, highlight = false }: BalanceRowProps) {
             {balance.symbol.slice(0, 2)}
           </div>
 
-          <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-[var(--color-content-primary)]">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="truncate text-sm font-medium text-[var(--color-content-primary)] max-w-full">
                 {balance.symbol}
               </span>
 
               {/* Honesty over confidence. An unrecognised denom gets a visible
                   caveat instead of a plausible-looking wrong number. */}
               {!balance.isKnownToken && (
-                <Badge variant="warning">decimals unverified</Badge>
+                <Badge variant="warning" className="shrink-0">unverified</Badge>
               )}
             </div>
 

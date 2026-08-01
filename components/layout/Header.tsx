@@ -39,8 +39,10 @@
 
 import { ConnectWalletButton } from '@/components/wallet/ConnectWalletButton'
 import { Badge } from '@/components/ui/Badge'
-import { CHAIN_ID, IS_MAINNET } from '@/lib/constants'
-import Image from 'next/image'
+import { Logo } from '@/components/ui/Logo'
+import { ThemeToggle } from '@/components/ui/ThemeToggle'
+import { CHAIN_ID } from '@/lib/constants'
+import { AppNotification, getNotifications, subscribeToNotifications, markAllAsRead, formatTimeAgo } from '@/lib/notifications'
 import { useState, useRef, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -61,8 +63,31 @@ import { useRouter, useSearchParams } from 'next/navigation'
  * it scrolls underneath.
  */
 export function Header() {
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
   const [showNotifications, setShowNotifications] = useState(false)
+  const [notifications, setNotifications] = useState<AppNotification[]>([])
+  
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const notificationsRef = useRef<HTMLDivElement>(null)
+
+  const unreadCount = notifications.filter(n => !n.read).length
+
+  // Load and subscribe to notifications
+  useEffect(() => {
+    setNotifications(getNotifications())
+    const unsubscribe = subscribeToNotifications(() => {
+      setNotifications(getNotifications())
+    })
+    
+    const interval = setInterval(() => {
+      setNotifications([...getNotifications()]) // Trigger re-render for time ago
+    }, 60000)
+    
+    return () => {
+      unsubscribe()
+      clearInterval(interval)
+    }
+  }, [])
   
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -107,25 +132,21 @@ export function Header() {
   }, [])
 
   return (
-    <div className="sticky top-6 z-50 flex justify-center px-4 sm:px-6 lg:px-8 pointer-events-none">
-      <header className="pointer-events-auto w-full max-w-[1400px] rounded-2xl border border-[#00E5FF]/20 bg-[#030A0E]/80 shadow-[0_4px_30px_rgba(0,229,255,0.06)] backdrop-blur-xl transition-all duration-300">
-        <div className="flex h-16 items-center justify-between gap-4 px-4 sm:px-6">
+    <div className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
+      <header className="flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 rounded-full border border-[var(--color-line-subtle)] bg-gray-200/80 dark:bg-transparent backdrop-blur-2xl transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
           {/* LEFT: Logo & Name */}
           <div className="flex min-w-0 items-center gap-3">
-            <Image
-              src="/img/logo.jpg"
-              alt="NovaTip Logo"
-              width={32}
-              height={32}
-              className="shrink-0 rounded-[8px] border border-[#00E5FF]/20 shadow-sm"
-            />
-            <p className="truncate text-lg font-black tracking-tight bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] bg-clip-text text-transparent">
+            <div className="relative w-8 h-8 shrink-0">
+              <div className="absolute inset-0 bg-[#fbbf24] blur-md opacity-60 rounded-[8px]" aria-hidden="true" />
+              <Logo className="relative z-10 w-full h-full rounded-[8px] object-cover border border-[#fbbf24]/30" />
+            </div>
+            <p className="truncate text-lg font-black tracking-tight text-[var(--content-primary)]">
               NovaTip
             </p>
           </div>
 
           {/* CENTER: Search Bar (Hidden on small screens) */}
-          <div className="hidden md:flex flex-1 max-w-[480px] mx-4 items-center rounded-full bg-[#10192A]/50 px-4 py-2 border border-[#ffffff10] text-[13px] text-[var(--color-content-secondary)] hover:border-[#00E5FF]/30 transition-colors">
+          <div className="hidden md:flex flex-1 max-w-[480px] mx-4 items-center rounded-full bg-[var(--color-surface-raised)]/50 px-4 py-2 border border-[var(--color-line-subtle)] text-[13px] text-[var(--color-content-secondary)] hover:border-[#00E5FF]/30 transition-colors">
             <svg className="h-4 w-4 mr-3 opacity-60" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
@@ -134,49 +155,58 @@ export function Header() {
               placeholder="Search creators, campaigns, or addresses..." 
               value={searchTerm}
               onChange={handleSearchChange}
-              className="bg-transparent border-none outline-none w-full text-white placeholder-[var(--color-content-muted)]"
+              className="bg-transparent border-none outline-none w-full text-[var(--color-content-primary)] placeholder-[var(--color-content-muted)]"
             />
           </div>
 
           {/* RIGHT: Actions */}
           <div className="flex shrink-0 items-center gap-3">
+            <ThemeToggle />
+            
             <div className="relative" ref={dropdownRef}>
+              {/* Notifications */}
               <button
-                type="button"
-                onClick={() => setShowNotifications(!showNotifications)}
-                className="relative rounded-full bg-[var(--color-surface-raised)] p-2 text-[var(--color-content-muted)] hover:text-[#00E5FF] transition-colors hover:bg-[var(--color-surface-hover)]"
+                onClick={() => {
+                  setShowNotifications(!showNotifications)
+                  if (!showNotifications && unreadCount > 0) markAllAsRead()
+                }}
+                className="relative p-2 rounded-full hover:bg-[var(--color-surface-hover)] transition-colors text-[var(--color-content-secondary)] hover:text-[var(--color-content-primary)]"
                 aria-label="View notifications"
               >
-                <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-[#6D5DF6]"></span>
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-[var(--surface-base)]"></span>
+                )}
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-xl border border-[#00E5FF]/20 bg-[#030A0E]/95 shadow-lg backdrop-blur-xl ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="p-4 border-b border-[#00E5FF]/10">
-                    <h3 className="text-sm font-semibold text-white">Notifications</h3>
+                <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-xl border border-[var(--color-line-subtle)] bg-[var(--surface-base)] shadow-2xl ring-1 ring-black/5 focus:outline-none z-[100]">
+                  <div className="p-4 border-b border-[var(--color-line-subtle)] flex items-center justify-between">
+                    <h3 className="text-sm font-semibold text-[var(--color-content-primary)]">Notifications</h3>
+                    {unreadCount > 0 && <span className="text-[10px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded-full">{unreadCount} new</span>}
                   </div>
                   <div className="max-h-96 overflow-y-auto p-2">
-                    <div className="rounded-lg p-3 hover:bg-[#10192A] transition-colors cursor-pointer">
-                      <p className="text-[13px] font-medium text-white">Welcome to NovaTip! 🎉</p>
-                      <p className="mt-1 text-[11px] text-[var(--color-content-secondary)]">Set up your creator profile to start receiving INJ tips directly on-chain.</p>
-                      <p className="mt-2 text-[10px] text-[#6D5DF6]">Just now</p>
-                    </div>
-                    <div className="mt-1 rounded-lg p-3 hover:bg-[#10192A] transition-colors cursor-pointer">
-                      <p className="text-[13px] font-medium text-white">You received 0.5 INJ 🚀</p>
-                      <p className="mt-1 text-[11px] text-[var(--color-content-secondary)]">An anonymous supporter just tipped you! View transaction on the explorer.</p>
-                      <p className="mt-2 text-[10px] text-[#00E5FF]">2 hours ago</p>
-                    </div>
+                    {notifications.length === 0 ? (
+                      <div className="p-4 text-center text-sm text-[var(--color-content-muted)]">No notifications yet</div>
+                    ) : (
+                      notifications.map(notif => (
+                        <div key={notif.id} className={`p-3 rounded-lg transition-colors cursor-pointer mb-1 ${notif.read ? 'hover:bg-[var(--color-surface-hover)]' : 'bg-[#00E5FF]/5 hover:bg-[#00E5FF]/10'}`}>
+                          <p className="text-[13px] font-medium text-[var(--color-content-primary)]">{notif.title}</p>
+                          <p className="mt-1 text-[11px] text-[var(--color-content-secondary)]">{notif.message}</p>
+                          <p className="mt-1 text-[10px] text-[var(--color-content-muted)]">{formatTimeAgo(notif.timestamp)}</p>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               )}
             </div>
 
             <Badge
-              variant="default"
-              className="hidden lg:inline-flex items-center gap-2 border-[#ffffff15] bg-[#10192A] text-[var(--color-content-secondary)] px-3 py-1"
+              variant="neutral"
+              className="hidden lg:inline-flex items-center gap-2 border-[var(--color-line-subtle)] bg-[var(--color-surface-raised)] text-[var(--color-content-secondary)] px-3 py-1"
             >
               <span className="h-2 w-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
               {CHAIN_ID}
@@ -184,7 +214,6 @@ export function Header() {
 
             <ConnectWalletButton />
           </div>
-        </div>
       </header>
     </div>
   )

@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { validateInjectiveAddress } from '@/utils/validation'
+import { addNotification } from '@/lib/notifications'
 import type { Creator } from '@/lib/creators'
 
 interface AddCreatorModalProps {
@@ -27,6 +29,7 @@ export function AddCreatorModal({ onClose, onAdd }: AddCreatorModalProps) {
   const [address, setAddress] = useState('')
   const [bio, setBio] = useState('')
   const [avatar, setAvatar] = useState(AVATAR_OPTIONS[0])
+  const [customAvatar, setCustomAvatar] = useState('')
 
   const addressCheck = validateInjectiveAddress(address)
 
@@ -40,9 +43,10 @@ export function AddCreatorModal({ onClose, onAdd }: AddCreatorModalProps) {
       name: name.trim(),
       address: address.trim(),
       bio: bio.trim(),
-      avatar,
+      avatar: customAvatar.trim() || avatar,
     })
     
+    addNotification('New Creator Added! 🎉', `${name.trim()} was successfully added to your dashboard.`)
     onClose()
   }
 
@@ -140,9 +144,18 @@ export function AddCreatorModal({ onClose, onAdd }: AddCreatorModalProps) {
                       avatar === opt ? 'border-[#00E5FF] scale-110' : 'border-transparent opacity-50 hover:opacity-100'
                     }`}
                   >
-                    <img src={opt} alt="Avatar option" className="h-full w-full object-cover" />
+                    <Image src={opt} alt="Avatar option" fill sizes="48px" className="object-cover" />
                   </button>
                 ))}
+              </div>
+              <div className="mt-3">
+                <input
+                  type="url"
+                  value={customAvatar}
+                  onChange={(e) => setCustomAvatar(e.target.value)}
+                  placeholder="Or paste custom image URL (https://...)"
+                  className="w-full rounded-lg border border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] px-3 py-2 text-sm text-[var(--color-content-primary)] focus:border-[var(--color-brand)] focus:outline-none"
+                />
               </div>
             </div>
 
@@ -150,7 +163,7 @@ export function AddCreatorModal({ onClose, onAdd }: AddCreatorModalProps) {
               <Button
                 type="submit"
                 disabled={!canSubmit}
-                className="w-full bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] text-white shadow-md hover:from-[#00FFA3] hover:to-[#00E5FF] transition-all disabled:opacity-50"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-[#00E5FF] dark:to-[#6D5DF6] text-white shadow-md hover:from-blue-500 hover:to-indigo-500 dark:hover:from-[#00FFA3] dark:hover:to-[#00E5FF] transition-all disabled:opacity-50"
               >
                 Create Profile
               </Button>

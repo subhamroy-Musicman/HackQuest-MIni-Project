@@ -49,9 +49,10 @@ const RESOURCE_LINKS: Array<{ label: string; href: string; description: string }
 const NAV_LINKS = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
+  { name: 'Features', href: '/features' },
   { name: 'Creators', href: '/#creators' },
-  { name: 'Dashboard', href: '/' },
-  { name: 'Analytics', href: '/#analytics' },
+  { name: 'Dashboard', href: '/dashboard' },
+  { name: 'Analytics', href: '/analytics' },
 ]
 
 /**
@@ -66,8 +67,8 @@ const NAV_LINKS = [
  */
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-[var(--color-line-subtle)]">
-      <div className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6 lg:px-8 xl:px-12">
+    <footer className="mt-16 mb-8 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1600px] rounded-3xl border border-[var(--color-line-subtle)] bg-[var(--color-surface-raised)]/60 backdrop-blur-xl p-8 sm:p-10 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
         <div className="grid gap-6 sm:grid-cols-2">
           {RESOURCE_LINKS.map((link) => (
             <a
@@ -93,17 +94,17 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
+        <nav className="mt-12 flex w-full flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center">
           {NAV_LINKS.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-content-secondary)] hover:text-[#00E5FF] transition-colors"
+              className="inline-block text-[11px] font-semibold uppercase tracking-widest text-[var(--color-content-secondary)] transition-colors hover:text-[#00E5FF]"
             >
               {item.name}
             </Link>
           ))}
-        </div>
+        </nav>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-line-subtle)] pt-6">
           <div className="flex flex-col gap-1 text-center sm:text-left">
@@ -125,6 +126,17 @@ export function Footer() {
           <div className="flex items-center gap-4 text-[12px] font-medium text-[var(--color-content-muted)]">
             <span>Built by Subham Roy</span>
             <div className="flex items-center gap-3">
+              <a
+                href="https://www.linkedin.com/in/subham-roy-a54320382/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[var(--color-content-muted)] hover:text-[#0077b5] dark:hover:text-white transition-colors group"
+                aria-label="LinkedIn Profile"
+              >
+                <svg className="h-[18px] w-[18px] fill-current opacity-70 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+              </a>
               <a
                 href="https://github.com/subhamroy-Musicman"
                 target="_blank"

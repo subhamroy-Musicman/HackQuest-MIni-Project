@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/img/logo.jpg" alt="NovaTip Logo" width="150" style="border-radius: 12px; margin-bottom: 20px" />
+  <img src="public/img/logo.svg" alt="NovaTip Logo" width="150" style="border-radius: 12px; margin-bottom: 20px" />
   <h1>NovaTip</h1>
 </div>
 

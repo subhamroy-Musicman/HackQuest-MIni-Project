@@ -22,10 +22,10 @@ export default function AboutPage() {
         <Card title="Our Mission" className="border-[#00E5FF]/20 shadow-[0_0_15px_rgba(0,229,255,0.05)]">
           <div className="text-[var(--color-content-secondary)] leading-relaxed space-y-4">
             <p>
-              NovaTip was born out of a simple idea: creators shouldn't have to rely on high-fee Web2 platforms to monetize their content and engage with their supporters. 
+              NovaTip was born out of a simple idea: creators shouldn&apos;t have to rely on high-fee Web2 platforms to monetize their content and engage with their supporters. 
             </p>
             <p>
-              Built natively on the <strong>Injective Protocol</strong>, NovaTip provides a lightning-fast, decentralized, and zero-compromise tipping experience. Every INJ sent on our platform goes directly to the creator's wallet instantly, secured entirely on-chain.
+              Built natively on the <strong>Injective Protocol</strong>, NovaTip provides a lightning-fast, decentralized, and zero-compromise tipping experience. Every INJ sent on our platform goes directly to the creator&apos;s wallet instantly, secured entirely on-chain.
             </p>
           </div>
         </Card>
@@ -33,7 +33,7 @@ export default function AboutPage() {
         <div className="grid gap-8 sm:grid-cols-2">
           <Card title="Fast & Feeless">
             <p className="text-sm text-[var(--color-content-secondary)] leading-relaxed">
-              Leveraging Injective's unparalleled throughput, donations on NovaTip clear instantly with near-zero gas fees, making micro-transactions a reality.
+              Leveraging Injective&apos;s unparalleled throughput, donations on NovaTip clear instantly with near-zero gas fees, making micro-transactions a reality.
             </p>
           </Card>
           

@@ -1,11 +1,12 @@
 
-
+import React from 'react'
 import type { Metadata, Viewport } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { WalletProvider } from '@/context/WalletProvider'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { ThemeProvider } from '@/components/providers/ThemeProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -34,30 +35,34 @@ export const viewport: Viewport = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
+  return (
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body className="min-h-screen antialiased">
         <div className="neon-wave-container" aria-hidden="true">
           <div className="neon-wave"></div>
           <div className="neon-wave"></div>
         </div>
-        <WalletProvider>
-          {/* A skip link. The first thing a keyboard user reaches, and hidden
-              until focused — it lets them jump past the header instead of
-              tabbing through it on every page. */}
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-[var(--color-brand)] focus:px-3 focus:py-2 focus:text-sm focus:text-[#04141a]"
-          >
-            Skip to main content
-          </a>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <WalletProvider>
+            {/* A skip link. The first thing a keyboard user reaches, and hidden
+                until focused — it lets them jump past the header instead of
+                tabbing through it on every page. */}
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-[var(--color-brand)] focus:px-3 focus:py-2 focus:text-sm focus:text-[#04141a]"
+            >
+              Skip to main content
+            </a>
 
-          <Header />
+            <React.Suspense fallback={null}>
+              <Header />
+            </React.Suspense>
 
-          <main id="main-content">{children}</main>
+            <main id="main-content">{children}</main>
 
-          <Footer />
-        </WalletProvider>
+            <Footer />
+          </WalletProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -10,7 +10,7 @@ export default function HomePage() {
     <div className="relative min-h-screen pb-24">
       {/* Decorative ambient glow */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[500px] bg-gradient-to-b from-[#00E5FF]/10 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[500px] bg-gradient-to-b from-[rgba(var(--color-wave-rgb),0.1)] to-transparent"
         aria-hidden="true"
       />
 

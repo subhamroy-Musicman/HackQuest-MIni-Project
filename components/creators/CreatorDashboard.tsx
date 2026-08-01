@@ -36,7 +36,7 @@ export function CreatorDashboard() {
     return (
       creator.name.toLowerCase().includes(searchQuery) ||
       creator.address.toLowerCase().includes(searchQuery) ||
-      (creator.description && creator.description.toLowerCase().includes(searchQuery))
+      (creator.bio && creator.bio.toLowerCase().includes(searchQuery))
     )
   })
 
@@ -62,9 +62,11 @@ export function CreatorDashboard() {
             <p className="text-sm font-medium text-[var(--color-content-muted)] uppercase tracking-wider mb-1">Total Creators</p>
             <p className="text-3xl font-bold text-[var(--color-content-primary)]">{creators.length}</p>
           </div>
-          <div className="rounded-xl border border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] p-6 flex flex-col justify-center text-center">
+          <div className="glass-panel rounded-2xl p-6 flex flex-col justify-center items-center text-center">
             <p className="text-sm font-medium text-[var(--color-content-muted)] uppercase tracking-wider mb-1">Total Value Tipped</p>
-            <p className="text-3xl font-bold text-[#00E5FF]">{totalTipped.toFixed(1)} INJ</p>
+            <p className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-[#00E5FF] dark:to-[#00FFA3] bg-clip-text text-transparent">
+              {totalTipped.toFixed(1)} <span className="text-[var(--color-content-primary)]">INJ</span>
+            </p>
           </div>
           <div className="rounded-xl border border-[var(--color-line-subtle)] bg-[var(--color-surface-base)] p-6 flex flex-col justify-center text-center">
             <p className="text-sm font-medium text-[var(--color-content-muted)] uppercase tracking-wider mb-1">Active Tippers</p>
@@ -89,7 +91,7 @@ export function CreatorDashboard() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
           </svg>
           <h3 className="mt-4 text-lg font-medium text-[var(--color-content-primary)]">No creators found</h3>
-          <p className="mt-2 text-sm text-[var(--color-content-secondary)]">We couldn't find anyone matching "{searchQuery}". Try a different name or wallet address.</p>
+          <p className="mt-2 text-sm text-[var(--color-content-secondary)]">We couldn&apos;t find anyone matching &quot;{searchQuery}&quot;. Try a different name or wallet address.</p>
         </div>
       )}
 

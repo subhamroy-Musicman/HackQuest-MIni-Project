@@ -48,19 +48,19 @@
  * -------------------------------------------------------------------------- */
 @theme {
   /* Surfaces, from furthest back to closest to the reader. */
-  --color-surface-base: #f8fafc;
-  --color-surface-raised: rgba(255, 255, 255, 0.6);
-  --color-surface-overlay: rgba(255, 255, 255, 0.7);
-  --color-surface-hover: rgba(255, 255, 255, 0.85);
+  --color-surface-base: var(--surface-base);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-overlay: var(--surface-overlay);
+  --color-surface-hover: var(--surface-hover);
 
   /* Borders. Two weights: a quiet default and one for emphasis. */
-  --color-line-subtle: rgba(255, 255, 255, 0.4);
-  --color-line-strong: rgba(203, 213, 225, 0.5);
+  --color-line-subtle: var(--line-subtle);
+  --color-line-strong: var(--line-strong);
 
   /* Text, in descending prominence. */
-  --color-content-primary: #0f172a;
-  --color-content-secondary: #475569;
-  --color-content-muted: #64748b;
+  --color-content-primary: var(--content-primary);
+  --color-content-secondary: var(--content-secondary);
+  --color-content-muted: var(--content-muted);
 
   /* Injective's brand cyan, plus a deeper shade for hover states. */
   --color-brand: #008eb3;
@@ -84,6 +84,36 @@
  * BASE STYLES
  * -------------------------------------------------------------------------- */
 @layer base {
+  :root {
+    --color-wave-rgb: 0, 150, 100; /* Deep saturated green */
+    --surface-base: #f8fafc;
+    --surface-raised: rgba(255, 255, 255, 0.6);
+    --surface-overlay: rgba(255, 255, 255, 0.7);
+    --surface-hover: rgba(255, 255, 255, 0.85);
+    
+    --line-subtle: rgba(0, 0, 0, 0.08);
+    --line-strong: rgba(0, 0, 0, 0.15);
+    
+    --content-primary: #0f172a;
+    --content-secondary: #475569;
+    --content-muted: #64748b;
+  }
+
+  .dark {
+    --color-wave-rgb: 16, 185, 129; /* Emerald 500 */
+    --surface-base: #07090d;
+    --surface-raised: rgba(255, 255, 255, 0.05);
+    --surface-overlay: rgba(255, 255, 255, 0.1);
+    --surface-hover: rgba(255, 255, 255, 0.08);
+    
+    --line-subtle: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(255, 255, 255, 0.2);
+    
+    --content-primary: #f8fafc;
+    --content-secondary: #94a3b8;
+    --content-muted: #64748b;
+  }
+
   html {
     /* Anchor links scroll smoothly to the section they target. */
     scroll-behavior: smooth;
@@ -192,8 +222,8 @@
     left: -15%;
     width: 130%;
     height: 70%;
-    background: linear-gradient(180deg, rgba(0, 210, 255, 0.08) 0%, rgba(0, 210, 255, 0) 100%);
-    border-top: 1px solid rgba(0, 210, 255, 0.15);
+    background: linear-gradient(180deg, rgba(var(--color-wave-rgb), 0.08) 0%, rgba(var(--color-wave-rgb), 0) 100%);
+    border-top: 1px solid rgba(var(--color-wave-rgb), 0.15);
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     animation: wave-flow 18s linear infinite;
     filter: blur(4px);
@@ -203,8 +233,8 @@
     bottom: -20%;
     left: -10%;
     height: 80%;
-    background: linear-gradient(180deg, rgba(0, 210, 255, 0.05) 0%, rgba(0, 210, 255, 0) 100%);
-    border-top: 1px solid rgba(0, 210, 255, 0.1);
+    background: linear-gradient(180deg, rgba(var(--color-wave-rgb), 0.05) 0%, rgba(var(--color-wave-rgb), 0) 100%);
+    border-top: 1px solid rgba(var(--color-wave-rgb), 0.1);
     animation: wave-flow 22s linear infinite reverse;
     border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%;
     filter: blur(6px);
@@ -229,6 +259,21 @@
 @keyframes wave-flow {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@keyframes float-3d {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    filter: drop-shadow(0 4px 6px rgba(0, 229, 255, 0.15));
+  }
+  50% {
+    transform: translateY(-4px) scale(1.05) rotate(1deg);
+    filter: drop-shadow(0 12px 12px rgba(0, 229, 255, 0.35));
+  }
+}
+
+.animate-float-3d {
+  animation: float-3d 3.5s ease-in-out infinite;
 }
 
 /* Custom scrollbar, so long balance lists match the rest of the interface. */

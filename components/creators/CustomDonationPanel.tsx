@@ -28,7 +28,11 @@ export function CustomDonationPanel() {
     e.preventDefault()
     if (!isValid) return
 
-    await send(address, amount)
+    await send({
+      recipientAddress: address,
+      humanAmount: amount,
+      availableBalance: injBalance
+    })
     
     // Trigger confetti on success
     confetti({
