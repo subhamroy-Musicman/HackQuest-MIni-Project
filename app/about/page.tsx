@@ -10,7 +10,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[900px] px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-16 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
+        <h1 className="text-4xl font-extrabold tracking-tight text-[var(--color-content-primary)] sm:text-6xl">
           About <span className="bg-gradient-to-r from-[#00E5FF] to-[#6D5DF6] bg-clip-text text-transparent">NovaTip</span>
         </h1>
         <p className="mt-6 text-lg text-[var(--color-content-secondary)] max-w-2xl mx-auto">
