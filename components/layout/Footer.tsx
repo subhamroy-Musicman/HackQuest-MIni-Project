@@ -29,6 +29,7 @@
  * =============================================================================
  */
 
+import Link from 'next/link'
 import { EXPLORER_BASE_URL, FAUCET_URL, IS_MAINNET, NETWORK_NAME } from '@/lib/constants'
 
 /** Links shown in the footer. Data rather than markup, so the list is trivial to extend. */
@@ -43,6 +44,14 @@ const RESOURCE_LINKS: Array<{ label: string; href: string; description: string }
     href: FAUCET_URL,
     description: 'Free INJ for building',
   },
+]
+
+const NAV_LINKS = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Creators', href: '/#creators' },
+  { name: 'Dashboard', href: '/' },
+  { name: 'Analytics', href: '/#analytics' },
 ]
 
 /**
@@ -85,14 +94,14 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
-          {['Home', 'About', 'Creators', 'Dashboard', 'Analytics'].map((item) => (
-            <a
-              key={item}
-              href="#"
+          {NAV_LINKS.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
               className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-content-secondary)] hover:text-[#00E5FF] transition-colors"
             >
-              {item}
-            </a>
+              {item.name}
+            </Link>
           ))}
         </div>
 
