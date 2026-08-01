@@ -133,7 +133,9 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="mailto:subhamroy5709@gmail.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=subhamroy5709@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[var(--color-content-muted)] hover:text-white transition-colors group"
                 aria-label="Email Me"
               >
