@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { AccountPanel } from '@/components/wallet/AccountPanel'
 import { BalancesPanel } from '@/components/balances/BalancesPanel'
 import { CreatorDashboard } from '@/components/creators/CreatorDashboard'
@@ -47,7 +48,9 @@ export default function HomePage() {
 
           {/* Main Content (Creators Grid) */}
           <div className="space-y-8 lg:col-span-8 xl:col-span-9">
-            <CreatorDashboard />
+            <Suspense fallback={<div className="h-64 animate-pulse rounded-xl bg-[var(--color-surface-base)]"></div>}>
+              <CreatorDashboard />
+            </Suspense>
             <RecentDonations />
           </div>
 

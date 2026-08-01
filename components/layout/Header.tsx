@@ -42,6 +42,7 @@ import { Badge } from '@/components/ui/Badge'
 import { CHAIN_ID, IS_MAINNET } from '@/lib/constants'
 import Image from 'next/image'
 import { useState, useRef, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 /**
  * Renders the application header.
@@ -62,6 +63,37 @@ import { useState, useRef, useEffect } from 'react'
 export function Header() {
   const [showNotifications, setShowNotifications] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const initialSearch = searchParams?.get('q') || ''
+  const [searchTerm, setSearchTerm] = useState(initialSearch)
+
+  // Sync search state if URL changes externally
+  useEffect(() => {
+    const currentQ = searchParams?.get('q') || ''
+    setSearchTerm(currentQ)
+  }, [searchParams])
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value
+    setSearchTerm(term)
+    
+    const params = new URLSearchParams(searchParams?.toString() || '')
+    if (term) {
+      params.set('q', term)
+    } else {
+      params.delete('q')
+    }
+    
+    // We use router.replace to avoid flooding browser history on every keystroke
+    // If not on the homepage, pushing to homepage with the query
+    if (window.location.pathname !== '/') {
+      router.push(`/?${params.toString()}`)
+    } else {
+      router.replace(`/?${params.toString()}`, { scroll: false })
+    }
+  }
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -100,6 +132,8 @@ export function Header() {
             <input 
               type="text" 
               placeholder="Search creators, campaigns, or addresses..." 
+              value={searchTerm}
+              onChange={handleSearchChange}
               className="bg-transparent border-none outline-none w-full text-white placeholder-[var(--color-content-muted)]"
             />
           </div>
