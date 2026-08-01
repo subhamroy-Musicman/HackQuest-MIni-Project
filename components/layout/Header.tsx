@@ -132,7 +132,7 @@ export function Header() {
   }, [])
 
   return (
-    <div className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
+    <div className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto" suppressHydrationWarning>
       <header className="flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 rounded-full border border-[var(--color-line-subtle)] bg-gray-200/80 dark:bg-transparent backdrop-blur-2xl transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
           {/* LEFT: Logo & Name */}
           <div className="flex min-w-0 items-center gap-3">

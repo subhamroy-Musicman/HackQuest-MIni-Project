@@ -37,7 +37,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen antialiased">
+      <body className="min-h-screen antialiased" suppressHydrationWarning>
         <div className="neon-wave-container" aria-hidden="true">
           <div className="neon-wave"></div>
           <div className="neon-wave"></div>
