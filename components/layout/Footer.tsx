@@ -84,6 +84,18 @@ export function Footer() {
           ))}
         </div>
 
+        <div className="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-4">
+          {['Home', 'About', 'Creators', 'Dashboard', 'Analytics'].map((item) => (
+            <a
+              key={item}
+              href="#"
+              className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-content-secondary)] hover:text-[#00E5FF] transition-colors"
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-line-subtle)] pt-6">
           <p className="text-[11px] leading-relaxed text-[var(--color-content-muted)] text-center sm:text-left">
             NovaTip is currently pointed at{' '}
