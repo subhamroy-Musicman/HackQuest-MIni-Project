@@ -106,16 +106,21 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[var(--color-line-subtle)] pt-6">
-          <p className="text-[11px] leading-relaxed text-[var(--color-content-muted)] text-center sm:text-left">
-            NovaTip is currently pointed at{' '}
-            <span className="text-[var(--color-content-secondary)]">
-              {NETWORK_NAME}
-            </span>
-            .{' '}
-            {IS_MAINNET
-              ? 'Transactions here move real funds and cannot be reversed.'
-              : 'Testnet tokens have no value — experiment freely.'}
-          </p>
+          <div className="flex flex-col gap-1 text-center sm:text-left">
+            <p className="text-[11px] leading-relaxed text-[var(--color-content-muted)]">
+              NovaTip is currently pointed at{' '}
+              <span className="text-[var(--color-content-secondary)]">
+                {NETWORK_NAME}
+              </span>
+              .{' '}
+              {IS_MAINNET
+                ? 'Transactions here move real funds and cannot be reversed.'
+                : 'Testnet tokens have no value — experiment freely.'}
+            </p>
+            <p className="text-[11px] text-[var(--color-content-muted)]">
+              &copy; 2026 NovaTip. All rights reserved.
+            </p>
+          </div>
           
           <div className="flex items-center gap-4 text-[12px] font-medium text-[var(--color-content-muted)]">
             <span>Built by Subham Roy</span>
