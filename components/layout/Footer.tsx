@@ -134,6 +134,8 @@ export function Footer() {
               </a>
               <a
                 href="mailto:subhamroy5709@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[var(--color-content-muted)] hover:text-white transition-colors group"
                 aria-label="Email Me"
               >
