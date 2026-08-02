@@ -131,14 +131,14 @@ export function Header() {
 
   return (
     <div className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto" suppressHydrationWarning>
-      <header className="flex h-16 w-full items-center justify-between gap-4 px-4 sm:px-6 rounded-full border border-[var(--color-line-subtle)] bg-gray-200/80 dark:bg-transparent backdrop-blur-2xl transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+      <header className="flex h-16 w-full items-center justify-between gap-2 sm:gap-4 px-3 sm:px-6 rounded-full border border-[var(--color-line-subtle)] bg-gray-200/80 dark:bg-transparent backdrop-blur-2xl transition-all duration-300 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
           {/* LEFT: Logo & Name */}
-          <div className="flex min-w-0 items-center gap-3">
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">
             <div className="relative w-8 h-8 shrink-0">
               <div className="absolute inset-0 bg-[#fbbf24] blur-md opacity-60 rounded-[8px]" aria-hidden="true" />
               <Logo className="relative z-10 w-full h-full rounded-[8px] object-cover border border-[#fbbf24]/30" />
             </div>
-            <p className="truncate text-lg font-black tracking-tight text-[var(--content-primary)]">
+            <p className="hidden sm:block truncate text-lg font-black tracking-tight text-[var(--content-primary)]">
               NovaTip
             </p>
           </div>
@@ -158,7 +158,7 @@ export function Header() {
           </div>
 
           {/* RIGHT: Actions */}
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <ThemeToggle />
             
             <div className="relative" ref={dropdownRef}>
@@ -202,13 +202,15 @@ export function Header() {
               )}
             </div>
 
-            <Badge
-              variant="neutral"
-              className="hidden lg:inline-flex items-center gap-2 border-[var(--color-line-subtle)] bg-[var(--color-surface-raised)] text-[var(--color-content-secondary)] px-3 py-1"
-            >
-              <span className="h-2 w-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
-              {CHAIN_ID}
-            </Badge>
+            <div className="hidden lg:flex">
+              <Badge
+                variant="neutral"
+                className="items-center gap-2 border-[var(--color-line-subtle)] bg-[var(--color-surface-raised)] text-[var(--color-content-secondary)] px-3 py-1"
+              >
+                <span className="h-2 w-2 rounded-full bg-[#10b981] shadow-[0_0_8px_#10b981]"></span>
+                {CHAIN_ID}
+              </Badge>
+            </div>
 
             <ConnectWalletButton />
           </div>
