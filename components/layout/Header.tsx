@@ -161,7 +161,7 @@ export function Header() {
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <ThemeToggle />
             
-            <div className="relative" ref={dropdownRef}>
+            <div ref={dropdownRef}>
               {/* Notifications */}
               <button
                 onClick={() => {
@@ -180,7 +180,7 @@ export function Header() {
               </button>
 
               {showNotifications && (
-                <div className="absolute right-0 mt-3 w-80 origin-top-right rounded-xl border border-[var(--color-line-subtle)] bg-[var(--surface-base)] shadow-2xl ring-1 ring-black/5 focus:outline-none z-[100]">
+                <div className="absolute top-[72px] right-0 sm:right-6 w-[calc(100vw-32px)] sm:w-80 max-w-[320px] origin-top-right rounded-xl border border-[var(--color-line-subtle)] bg-[var(--surface-base)] shadow-2xl ring-1 ring-black/5 focus:outline-none z-[100]">
                   <div className="p-4 border-b border-[var(--color-line-subtle)] flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-[var(--color-content-primary)]">Notifications</h3>
                     {unreadCount > 0 && <span className="text-[10px] bg-red-500/10 text-red-500 px-2 py-0.5 rounded-full">{unreadCount} new</span>}
