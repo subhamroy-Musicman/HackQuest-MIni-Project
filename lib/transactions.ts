@@ -86,21 +86,29 @@ import type { TxRaw } from '@injectivelabs/sdk-ts'
 import { getOfflineSigner } from './wallet'
 import { broadcastTransaction, getAccountAuthInfo } from './api'
 import { getTransactionFee, toChainAmount } from './helpers'
-import { CHAIN_ID, INJ_DECIMALS, INJ_DENOM, TX_TIMEOUT_BLOCKS } from './constants'
+import { CHAIN_ID, TX_TIMEOUT_BLOCKS } from './constants'
 import { AppError, ErrorCode, toAppError, walletNotConnectedError } from './errors'
 import { validateAmount, validateInjectiveAddress } from '@/utils/validation'
 import type { TransactionResult, TransactionStage, WalletAccount } from '@/types'
 
 /**
- * Everything needed to send INJ from one account to another.
+ * Everything needed to send tokens from one account to another.
  */
-export interface SendInjParams {
+export interface SendTokenParams {
   /** The connected account doing the sending. */
   sender: WalletAccount
   /** The `inj1…` address receiving the tokens. */
   recipientAddress: string
   /** Amount in human units, exactly as typed, e.g. `"1.5"`. */
   humanAmount: string
+  /**
+   * The token's on-chain denomination (e.g. 'inj' or 'peggy0xdAC1...').
+   */
+  denom: string
+  /**
+   * The token's decimal precision (e.g. 18 for INJ, 6 for USDT).
+   */
+  decimals: number
   /**
    * An optional note attached to the transaction.
    *
@@ -125,13 +133,13 @@ export interface SendInjParams {
 }
 
 /**
- * Sends native INJ from the connected wallet to another address.
+ * Sends tokens from the connected wallet to another address.
  *
  * PURPOSE
  * The complete, end-to-end demonstration this repository is built around. Every
  * concept in the README appears somewhere in this function.
  *
- * @param params See `SendInjParams`.
+ * @param params See `SendTokenParams`.
  * @returns A `TransactionResult` containing the hash, block height, result code
  *          and a ready-made explorer link.
  * @throws {AppError} With a specific code for every realistic failure:
@@ -141,10 +149,12 @@ export interface SendInjParams {
  *
  * @example
  * ```ts
- * const result = await sendInj({
+ * const result = await sendToken({
  *   sender: connectedAccount,
  *   recipientAddress: 'inj1dzqd00lfd4v87lqvcuzhr9hgfnfvme4h9tjxjm',
  *   humanAmount: '0.1',
+ *   denom: 'inj',
+ *   decimals: 18,
  *   memo: 'workshop demo',
  *   onStageChange: (stage) => setStage(stage),
  * })
@@ -179,11 +189,13 @@ export interface SendInjParams {
  *        v
  *   [success]    return TransactionResult
  */
-export async function sendInj(params: SendInjParams): Promise<TransactionResult> {
+export async function sendToken(params: SendTokenParams): Promise<TransactionResult> {
   const {
     sender,
     recipientAddress,
     humanAmount,
+    denom,
+    decimals,
     memo = '',
     onStageChange,
     availableBalance,
@@ -214,7 +226,7 @@ export async function sendInj(params: SendInjParams): Promise<TransactionResult>
     }
 
     const amountCheck = validateAmount(humanAmount, availableBalance, {
-      maxDecimals: INJ_DECIMALS,
+      maxDecimals: decimals,
     })
     if (!amountCheck.valid) {
       throw new AppError(ErrorCode.INVALID_AMOUNT, amountCheck.error!)
@@ -247,7 +259,7 @@ export async function sendInj(params: SendInjParams): Promise<TransactionResult>
      * Getting this wrong by one factor of ten is the classic beginner bug, and
      * it is unrecoverable once broadcast.
      * ------------------------------------------------------------------- */
-    const chainAmount = toChainAmount(humanAmount, INJ_DECIMALS)
+    const chainAmount = toChainAmount(humanAmount, decimals)
 
     /* ---------------------------------------------------------------------
      * Build the message.
@@ -264,7 +276,7 @@ export async function sendInj(params: SendInjParams): Promise<TransactionResult>
      * ------------------------------------------------------------------- */
     const message = MsgSend.fromJSON({
       amount: {
-        denom: INJ_DENOM,
+        denom: denom,
         amount: chainAmount,
       },
       srcInjectiveAddress: sender.injectiveAddress,

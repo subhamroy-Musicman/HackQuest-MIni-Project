@@ -6,7 +6,7 @@ import { Creator } from '@/lib/creators'
 import { useWallet } from '@/hooks/useWallet'
 import { useBalances } from '@/hooks/useBalances'
 import { addNotification } from '@/lib/notifications'
-import { useSendInj } from '@/hooks/useSendInj'
+import { useSendToken } from '@/hooks/useSendToken'
 import { TransactionStepper } from '@/components/transfer/TransactionStepper'
 import { TransactionReceipt } from '@/components/transfer/TransactionReceipt'
 import { Card } from '@/components/ui/Card'
@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/Button'
 import { Alert } from '@/components/ui/Alert'
 import { validateAmount } from '@/utils/validation'
 import { getTransactionFee } from '@/lib/helpers'
-import { INJ_DECIMALS } from '@/lib/constants'
+import { KNOWN_TOKENS } from '@/lib/constants'
 import { isDisplayableError } from '@/lib/errors'
 import { addTip } from '@/lib/tips'
 import confetti from 'canvas-confetti'
@@ -29,21 +29,25 @@ const PRESET_AMOUNTS = ['0.01', '0.05', '0.1', '0.5', '1']
 
 export function DonationModal({ creator, onClose, onSuccess }: DonationModalProps) {
   const { account } = useWallet()
-  const { injBalance, refetch: refetchBalances } = useBalances(account?.injectiveAddress)
+  const { getBalanceFor, refetch: refetchBalances } = useBalances(account?.injectiveAddress)
 
+  const [selectedTokenKey, setSelectedTokenKey] = useState('inj')
   const [amount, setAmount] = useState('')
   const [isCustom, setIsCustom] = useState(false)
   const [memo, setMemo] = useState(`Tip for ${creator.name} via NeonTip`)
   
-  const { stage, isSending, result, error, send, reset } = useSendInj({
+  const selectedToken = KNOWN_TOKENS[selectedTokenKey] || KNOWN_TOKENS['inj']
+  const availableBalance = getBalanceFor(selectedToken.denom)?.formattedAmount ?? '0'
+  
+  const { stage, isSending, result, error, send, reset } = useSendToken({
     onSuccess: () => {
       refetchBalances()
       addTip({
         tipper: account?.injectiveAddress || 'Anonymous',
-        amount: amount,
+        amount: `${amount} ${selectedToken.symbol}`,
         creator: creator.name
       })
-      addNotification('Tip Sent Successfully! 🚀', `You just tipped ${amount} INJ to ${creator.name}`)
+      addNotification('Tip Sent Successfully! 🚀', `You just tipped ${amount} ${selectedToken.symbol} to ${creator.name}`)
       onSuccess?.(amount)
       confetti({
         particleCount: 150,
@@ -63,8 +67,8 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
   }, [])
 
   const amountCheck = useMemo(
-    () => validateAmount(amount, injBalance, { maxDecimals: INJ_DECIMALS }),
-    [amount, injBalance],
+    () => validateAmount(amount, availableBalance, { maxDecimals: selectedToken.decimals }),
+    [amount, availableBalance, selectedToken.decimals],
   )
   const { humanReadableFee } = useMemo(() => getTransactionFee(), [])
 
@@ -77,8 +81,10 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
     void send({
       recipientAddress: creator.address,
       humanAmount: amount.trim(),
+      denom: selectedToken.denom,
+      decimals: selectedToken.decimals,
       memo: memo.trim() || undefined,
-      availableBalance: injBalance,
+      availableBalance: availableBalance,
     })
   }
 
@@ -150,9 +156,32 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
 
               {/* Amount Selection */}
               <div className="space-y-3">
-                <label className="text-[11px] font-medium tracking-wide text-[var(--color-content-muted)] uppercase">
-                  Select Amount (INJ)
-                </label>
+                <div className="flex items-center justify-between">
+                  <label className="text-[11px] font-medium tracking-wide text-[var(--color-content-muted)] uppercase">
+                    Select Amount
+                  </label>
+                  
+                  {/* Token Selector */}
+                  <div className="flex gap-1 bg-[var(--color-surface-overlay)] border border-[var(--color-line-subtle)] rounded-lg p-1">
+                    {Object.entries(KNOWN_TOKENS).map(([key, token]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => setSelectedTokenKey(key)}
+                        className={`px-2 py-1 text-[10px] font-bold rounded-md transition-colors uppercase ${
+                          selectedTokenKey === key
+                            ? 'bg-[var(--color-surface-base)] text-[var(--color-brand)] shadow-sm'
+                            : 'text-[var(--color-content-muted)] hover:text-[var(--color-content-primary)]'
+                        }`}
+                      >
+                        {token.symbol}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex justify-between items-center text-xs text-[var(--color-content-secondary)]">
+                  <span>Balance: {availableBalance} {selectedToken.symbol}</span>
+                </div>
                 <div className="grid grid-cols-3 gap-2">
                   {PRESET_AMOUNTS.map((preset) => (
                     <button
@@ -204,7 +233,7 @@ export function DonationModal({ creator, onClose, onSuccess }: DonationModalProp
                       }`}
                     />
                     <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-[var(--color-content-muted)]">
-                      INJ
+                      {selectedToken.symbol}
                     </span>
                   </div>
                   {amount && !amountCheck.valid && (

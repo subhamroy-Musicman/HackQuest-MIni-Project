@@ -38,7 +38,7 @@ export function RecentDonations() {
             <div key={tip.id} className="flex items-start justify-between border-b border-[var(--color-line-subtle)] pb-4 last:border-0 last:pb-0">
               <div>
                 <p className="text-sm font-medium text-[var(--color-content-primary)]">
-                  {tip.tipper.slice(0, 8)}... <span className="font-normal text-[var(--color-content-secondary)]">tipped</span> {tip.amount} INJ
+                  {tip.tipper.slice(0, 8)}... <span className="font-normal text-[var(--color-content-secondary)]">tipped</span> {tip.amount}
                 </p>
                 <p className="mt-0.5 text-xs text-[var(--color-content-muted)]">
                   to {tip.creator}

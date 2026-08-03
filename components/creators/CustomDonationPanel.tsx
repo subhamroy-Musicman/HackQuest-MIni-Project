@@ -5,21 +5,26 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { useWallet } from '@/hooks/useWallet'
 import { useBalances } from '@/hooks/useBalances'
-import { useSendInj } from '@/hooks/useSendInj'
+import { useSendToken } from '@/hooks/useSendToken'
 import { validateInjectiveAddress, validateAmount } from '@/utils/validation'
+import { KNOWN_TOKENS } from '@/lib/constants'
 import { TransactionReceipt } from '@/components/transfer/TransactionReceipt'
 import confetti from 'canvas-confetti'
 
 export function CustomDonationPanel() {
   const { account } = useWallet()
-  const { injBalance } = useBalances(account?.injectiveAddress)
-  const { send, isSending, result, reset } = useSendInj()
+  const { getBalanceFor } = useBalances(account?.injectiveAddress)
+  const { send, isSending, result, reset } = useSendToken()
 
+  const [selectedTokenKey, setSelectedTokenKey] = useState('inj')
   const [address, setAddress] = useState('')
   const [amount, setAmount] = useState('')
 
+  const selectedToken = KNOWN_TOKENS[selectedTokenKey] || KNOWN_TOKENS['inj']
+  const availableBalance = getBalanceFor(selectedToken.denom)?.formattedAmount ?? '0'
+
   const addressCheck = validateInjectiveAddress(address)
-  const amountCheck = validateAmount(amount, injBalance)
+  const amountCheck = validateAmount(amount, availableBalance, { maxDecimals: selectedToken.decimals })
 
   const isValid =
     address && amount && addressCheck.valid && amountCheck.valid && !isSending
@@ -31,7 +36,9 @@ export function CustomDonationPanel() {
     await send({
       recipientAddress: address,
       humanAmount: amount,
-      availableBalance: injBalance
+      denom: selectedToken.denom,
+      decimals: selectedToken.decimals,
+      availableBalance: availableBalance
     })
     
     // Trigger confetti on success
@@ -78,10 +85,30 @@ export function CustomDonationPanel() {
         </div>
 
         <div>
-          <label className="mb-1.5 flex justify-between text-xs font-semibold text-[var(--color-content-secondary)]">
-            <span>Amount (INJ)</span>
-            <span>Balance: {Number(injBalance).toFixed(4)}</span>
-          </label>
+          <div className="mb-1.5 flex items-center justify-between">
+            <label className="text-xs font-semibold text-[var(--color-content-secondary)]">
+              Amount
+            </label>
+            <div className="flex gap-1 bg-[var(--color-surface-overlay)] border border-[var(--color-line-subtle)] rounded-md p-1">
+              {Object.entries(KNOWN_TOKENS).map(([key, token]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setSelectedTokenKey(key)}
+                  className={`px-2 py-0.5 text-[10px] font-bold rounded transition-colors uppercase ${
+                    selectedTokenKey === key
+                      ? 'bg-[var(--color-surface-base)] text-[var(--color-brand)] shadow-sm'
+                      : 'text-[var(--color-content-muted)] hover:text-[var(--color-content-primary)]'
+                  }`}
+                >
+                  {token.symbol}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mb-1.5 text-right text-[10px] text-[var(--color-content-secondary)]">
+            Balance: {availableBalance} {selectedToken.symbol}
+          </div>
           <div className="relative">
             <input
               type="number"
@@ -94,7 +121,7 @@ export function CustomDonationPanel() {
             />
             <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
               <span className="text-xs font-medium text-[var(--color-content-muted)]">
-                INJ
+                {selectedToken.symbol}
               </span>
             </div>
           </div>
